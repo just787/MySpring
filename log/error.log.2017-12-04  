@@ -1,0 +1,15 @@
+2017-12-04 13:03:46,331 ERROR[Tester:37] - org.springframework.jdbc.BadSqlGrammarException: 
+### Error updating database.  Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Table 'slb_cfg.0user' doesn't exist
+### The error may involve defaultParameterMap
+### The error occurred while setting parameters
+### SQL: update slb_cfg.0user          SET phone= '123456789'          where userid = 'wdl';
+### Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Table 'slb_cfg.0user' doesn't exist
+; bad SQL grammar []; nested exception is com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Table 'slb_cfg.0user' doesn't exist
+  2017-12-04 23:54:44,241 ERROR[Tester:38] - org.springframework.jdbc.BadSqlGrammarException: 
+### Error updating database.  Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'userid' in 'where clause'
+### The error may involve defaultParameterMap
+### The error occurred while setting parameters
+### SQL: update test.user set name= 'wdlx' where userid = 'wdl';
+### Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'userid' in 'where clause'
+; bad SQL grammar []; nested exception is com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'userid' in 'where clause'
+  
