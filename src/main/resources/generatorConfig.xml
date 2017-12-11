@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <!-- 引入数据库配置文件 -->
+    <properties resource="jdbc.properties"/>
+
+    <context id="test" targetRuntime="MyBatis3">
+        <!-- 一些工具 -->
+        <plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin"></plugin>
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"></plugin>
+        <plugin type="org.mybatis.generator.plugins.ToStringPlugin"></plugin>
+
+        <commentGenerator>
+            <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+
+        <!--mysql数据库连接的信息：驱动类、连接地址、用户名、密码 -->
+        <jdbcConnection driverClass="${jdbc.driverClassName}"
+                        connectionURL="${jdbc.url}" userId="${jdbc.username}" password="${jdbc.password}">
+        </jdbcConnection>
+
+        <!-- 默认false，把JDBC DECIMAL 和 NUMERIC 类型解析为 Integer，
+       为 true时把JDBC DECIMAL和NUMERIC类型解析为java.math.BigDecimal -->
+        <javaTypeResolver>
+            <!-- This property is used to specify whether MyBatis Generator should
+                force the use of java.math.BigDecimal for DECIMAL and NUMERIC fields, -->
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+
+        <!-- targetProject:生成model类的位置 --><!-- targetPackage：目标位置，如 com.test.model  targetProject：目标工程名称，填写配置文件所在的eclipse工程名，如test/src-->
+        <javaModelGenerator targetPackage="com.wdl.spring.model" targetProject="src/main/java">
+            <!-- enableSubPackages:是否让schema作为包的后缀 -->
+            <property name="enableSubPackages" value="false"/>
+            <!-- 从数据库返回的值被清理前后的空格 -->
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <!-- targetProject:mapper映射xml文件生成的位置 -->
+        <sqlMapGenerator targetPackage="./mapping/test" targetProject="src/main/resources">
+            <property name="enableSubPackages" value="false"/>
+        </sqlMapGenerator>
+
+        <!-- targetPackage：mapper接口生成的位置 -->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.wdl.spring.dao"
+                             targetProject="src/main/java">
+            <property name="enableSubPackages" value="false"/>
+        </javaClientGenerator>
+
+        <!--  tableName为对应的数据库表,mapperName生成的Dao类名 domainObjectName是要生成的实体类, enable*ByExample 是否生成 example类 -->
+        <table tableName="goods" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">
+            <!-- 默认为false，如果设置为true，在生成的SQL中，table名字不会加上catalog或schema-->
+            <property name="ignoreQualifiersAtRuntime" value="false"></property>
+            <!-- 如果设置了runtimeSchema，那么在生成的SQL中，使用该指定的schema，而不是table元素上的schema-->
+            <property name="runtimeSchema" value="test"></property>
+        </table>
+
+    </context>
+</generatorConfiguration>
+
+        <!--配置完成后,Run as->maven bulid->mybatis-generator:generate 执行 ->F5 刷新-->

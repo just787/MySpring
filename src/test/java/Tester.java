@@ -1,3 +1,4 @@
+import com.wdl.spring.model.User;
 import com.wdl.spring.service.ITestService;
 import org.apache.log4j.Logger;
 import org.junit.After;
@@ -8,8 +9,6 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.concurrent.Future;
 
@@ -21,9 +20,9 @@ import java.util.concurrent.Future;
 @RunWith(SpringJUnit4ClassRunner.class) // 让测试运行于Spring测试环境
 // 导入spring配置文件
 @ContextConfiguration(locations = {"classpath:spring.xml"})
-@Transactional // 在需要事务管理的地方加 @Transactional 注解。 @Transactional
-// 注解可以被应用于接口定义和接口方法、类定义和类的 public 方法上。
-@TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = false) // 事务回滚,以免改动数据库
+// 在需要事务管理的地方加 @Transactional 注解。 @Transactional注解可以被应用于接口定义和接口方法、类定义和类的 public 方法上。
+/*@Transactional(transactionManager = "transactionManager")
+@Rollback(value = false)*/
 public class Tester {
     Logger logger = Logger.getLogger(Tester.class);
     // 接口注入
@@ -32,8 +31,14 @@ public class Tester {
 
     @Test
     public void test() {
+        User user = new User();
+        user.setId(1);
+        user.setUid("wdl");
+        user.setName("wdl8");
+
         try {
-            testService.test();
+            //System.out.println(AopUtils.isAopProxy(testService));
+            testService.updateByPrimaryKey(user);
         } catch (Exception e) {
             logger.error(e);
         }
