@@ -1,6 +1,7 @@
 package com.wdl.spring.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.wdl.spring.model.Goods;
 import com.wdl.spring.model.User;
 import com.wdl.spring.service.IGoodsService;
 import com.wdl.spring.service.ITestService;
@@ -29,8 +30,8 @@ public class TestController {
 
         User user = new User();
         user.setId(1);
-        user.setUid("wdl");
-        user.setName("wdl1");
+        user.setUid("admin");
+        user.setName("admin1");
 
         try {
             testService.updateByPrimaryKey(user);
@@ -38,7 +39,9 @@ public class TestController {
             logger.error(e);
         }
 
+
         User result = testService.selectByPrimaryKey(user);
-        return JSON.toJSONString(result);
+        Goods result1 = goodsService.selectByPrimaryKey(1);
+        return JSON.toJSONString(result) + "\r\n" + JSON.toJSONString(result1);
     }
 }

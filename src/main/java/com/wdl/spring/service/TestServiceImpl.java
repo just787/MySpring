@@ -2,13 +2,12 @@ package com.wdl.spring.service;
 
 import com.wdl.spring.dao.ITestMapper;
 import com.wdl.spring.dao.UserMapper;
+import com.wdl.spring.model.Goods;
 import com.wdl.spring.model.User;
 import com.wdl.spring.model.UserKey;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class TestServiceImpl implements ITestService {
@@ -18,6 +17,8 @@ public class TestServiceImpl implements ITestService {
     private ITestMapper testMapper;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    IGoodsService goodsService;
 
     @Override
     public void test() {
@@ -50,9 +51,17 @@ public class TestServiceImpl implements ITestService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public int updateByPrimaryKey(User record) {
+        logger.info("**********************start*********************");
         int result = userMapper.updateByPrimaryKey(record);
+        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@result:" + result);
+
+        Goods goods = new Goods();
+        goods.setId(1);
+        goods.setName("apple");
+        goods.setCount(101);
+        int result1 = goodsService.updateByPrimaryKeySelective(goods);
+        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@result1:" + result1);
 
       /*  record.setUid("admin");
         insertSelective(record);*/
@@ -63,6 +72,7 @@ public class TestServiceImpl implements ITestService {
 
         }
 
+        logger.info("**************end*************");
         return result;
     }
 }

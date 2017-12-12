@@ -45,7 +45,7 @@
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
     </bean>
 
-    <!--配置事物管理-->
+    <!--配置事物管理,注意:不同服务类之间的方法调用时事物的传播属性才同时生效,同个服务类内的嵌套方法则以调用者的事物传播属性为准-->
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource"/>
     </bean>
@@ -68,6 +68,7 @@
             <tx:method name="insert*" propagation="REQUIRED"/>
             <tx:method name="save*" propagation="REQUIRED"/>
             <tx:method name="update*" propagation="REQUIRED"/>
+            <tx:method name="updateByPrimaryKeySelective" propagation="REQUIRES_NEW"/>
             <tx:method name="modify*" propagation="REQUIRED"/>
             <tx:method name="edit*" propagation="REQUIRED"/>
             <tx:method name="delete*" propagation="REQUIRED"/>
