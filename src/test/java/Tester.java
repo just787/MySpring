@@ -1,3 +1,5 @@
+import com.alibaba.fastjson.JSON;
+import com.wdl.spring.controller.TestController;
 import com.wdl.spring.model.User;
 import com.wdl.spring.service.ITestService;
 import org.apache.log4j.Logger;
@@ -5,11 +7,15 @@ import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.*;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import javax.annotation.Resource;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.Future;
 
 /**
@@ -29,16 +35,52 @@ public class Tester {
     @Autowired
     private ITestService testService;
 
+    @Autowired
+    private TestController testController;
+
+    @Resource(name = "redisTemplate")
+    private ListOperations<String, String> listOps;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
+
     @Test
     public void test() {
-        User user = new User();
-        user.setId(1);
-        user.setUid("wdl");
-        user.setName("wdl8");
-
         try {
-            //System.out.println(AopUtils.isAopProxy(testService));
-            testService.updateByPrimaryKey(user);
+            //MockHttpServletRequest mockHttpServletRequest = new MockHttpServletRequest();
+            //mockHttpServletRequest.addParameter("name", "wdl");
+            //String r = testController.test(mockHttpServletRequest, "abc");
+
+            //ValueOperations operations = redisTemplate.opsForValue();
+            //operations.set("option1", "v1");
+
+
+
+            ZSetOperations<String, User> zSetOperations = redisTemplate.opsForZSet();
+            User user1 = new User();
+            user1.setUid("u1");
+            user1.setName("name1");
+            user1.setId(1);
+
+            User user2 = new User();
+            user2.setUid("u2");
+            user2.setName("name2");
+            user1.setId(2);
+
+
+            Set<ZSetOperations.TypedTuple<User>> userTypedTuple = new HashSet<ZSetOperations.TypedTuple<User>>();
+
+            ZSetOperations.TypedTuple<User> typedTuple = new DefaultTypedTuple<User>(user1,1.0);
+            ZSetOperations.TypedTuple<User> typedTuple1 = new DefaultTypedTuple<User>(user2,2.0);
+
+            userTypedTuple.add(typedTuple);
+            userTypedTuple.add(typedTuple1);
+
+            zSetOperations.add("sk",userTypedTuple);
+
+            Set<User> users = zSetOperations.range("sk",0,0);
+            System.out.println("*****************************");
+            System.out.println(JSON.toJSON(users.contains(user1)));
         } catch (Exception e) {
             logger.error(e);
         }

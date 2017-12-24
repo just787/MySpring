@@ -52,27 +52,7 @@ public class TestServiceImpl implements ITestService {
 
     @Override
     public int updateByPrimaryKey(User record) {
-        logger.info("**********************start*********************");
         int result = userMapper.updateByPrimaryKey(record);
-        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@result:" + result);
-
-        Goods goods = new Goods();
-        goods.setId(1);
-        goods.setName("apple");
-        goods.setCount(101);
-        int result1 = goodsService.updateByPrimaryKeySelective(goods);
-        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@result1:" + result1);
-
-      /*  record.setUid("admin");
-        insertSelective(record);*/
-        int i = 1 / 0;
-        try {
-            //int i = 1 / 0;
-        } catch (Exception e) {
-
-        }
-
-        logger.info("**************end*************");
         return result;
     }
 }

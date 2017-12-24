@@ -180,6 +180,17 @@
             <artifactId>fastjson</artifactId>
             <version>1.1.41</version>
         </dependency>
+        <!--Redis-->
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-redis</artifactId>
+            <version>2.0.2.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>2.9.0</version>
+        </dependency>
         <!--后端返回页面json数据绑定依赖-->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>

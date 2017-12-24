@@ -26,12 +26,12 @@ public class TestController {
     @RequestMapping(value = "/test", method = RequestMethod.GET)
     @ResponseBody
     public String test(HttpServletRequest request, String param) {
-        logger.info("******hello *******");
+        logger.info("******hello *******" + param + ";" + request.getParameter("name"));
 
         User user = new User();
         user.setId(1);
         user.setUid("admin");
-        user.setName("admin1");
+        user.setName("admin");
 
         try {
             testService.updateByPrimaryKey(user);
